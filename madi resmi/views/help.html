@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ТОО "РесмиТехноСервис" - Системная интеграция и IT решения</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
+    <link rel="stylesheet" href="/css/help.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+    <!-- Хедер (копируем из index.html) -->
+    <header id="header">
+        <div class="container header-container">
+            <div class="logo">
+                <img src="/images/photo_2025-06-29_15-44-58.jpg" alt="РесмиТехноСервис Лого">
+                <div class="logo-text">РЕСМИ<span>ТЕХНОСЕРВИС</span></div>
+            </div>
+            <nav id="nav">
+                <ul>
+                    <li><a href="/#home">Главная</a></li>
+                    <li><a href="/#about">О компании</a></li>
+                    <li><a href="/#services">Услуги</a></li>
+                    <li><a href="/#projects">Проекты</a></li>
+                    <li><a href="/#contact">Контакты</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Основной контент страницы помощи -->
+    <main class="help-page">
+        <section class="section help-hero">
+            <div class="container">
+                <h1>Техническая поддержка</h1>
+                <p>Мы всегда готовы помочь с решением ваших IT-проблем</p>
+            </div>
+        </section>
+
+        <section class="section help-content">
+            <div class="container">
+                <div class="help-categories">
+                    <div class="help-card">
+                        <i class="fas fa-headset"></i>
+                        <h3>Экстренная помощь</h3>
+                        <p>Круглосуточная поддержка для критических проблем</p>
+                        <a href="#emergency" class="btn">Подробнее</a>
+                    </div>
+                    
+                    <div class="help-card">
+                        <i class="fas fa-question-circle"></i>
+                        <h3>FAQ</h3>
+                        <p>Ответы на часто задаваемые вопросы</p>
+                        <a href="#faq" class="btn">Перейти</a>
+                    </div>
+                    
+                    <div class="help-card">
+                        <i class="fas fa-envelope"></i>
+                        <h3>Свяжитесь с нами</h3>
+                        <p>Напишите нам и мы ответим в течение часа</p>
+                        <a href="#contact" class="btn">Написать</a>
+                    </div>
+                </div>
+
+                <!-- Блок экстренной помощи -->
+                <div id="emergency" class="help-section">
+                    <h2>Экстренная IT-поддержка</h2>
+                    <div class="steps">
+                        <div class="step">
+                            <span>1</span>
+                            <h3>Опишите проблему</h3>
+                            <p>Заполните форму ниже максимально подробно</p>
+                        </div>
+                        <div class="step">
+                            <span>2</span>
+                            <h3>Приоритизация</h3>
+                            <p>Наш специалист свяжется в течение 15 минут</p>
+                        </div>
+                        <div class="step">
+                            <span>3</span>
+                            <h3>Решение</h3>
+                            <p>Дистанционное или выездное устранение проблемы</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Форма помощи -->
+                <div id="contact" class="help-form-section">
+                    <h2>Форма обращения в поддержку</h2>
+                    <form id="supportForm">
+                        <div class="form-group">
+                            <label for="support-name">Ваше имя</label>
+                            <input type="text" id="support-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="support-email">Email</label>
+                            <input type="email" id="support-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="support-topic">Тема обращения</label>
+                            <select id="support-topic" required>
+                                <option value="">Выберите тему</option>
+                                <option>Техническая проблема</option>
+                                <option>Консультация</option>
+                                <option>Другое</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="support-message">Сообщение</label>
+                            <textarea id="support-message" rows="5" required></textarea>
+                        </div>
+                        <div class="form-group">
+                        <div class="g-recaptcha" data-sitekey="6LeP2XErAAAAAHLq6tloleutyW_AbSahLKIDTXjp"></div>
+                        </div>
+                        <button type="submit" class="btn btn-accent">Отправить запрос</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Секция FAQ -->
+<div id="faq" class="faq-section">
+    <h2>Часто задаваемые вопросы</h2>
+    
+    <div class="faq-accordion">
+        <!-- Вопрос 1 -->
+        <div class="faq-item">
+            <button class="faq-question">
+                <span>Какие IT-услуги вы предоставляете?</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>Мы специализируемся на полном цикле IT-услуг: системная интеграция, облачные решения, кибербезопасность, разработка ПО, IT-аутсорсинг и техническая поддержка. Наша команда реализует проекты любой сложности для государственных и коммерческих организаций.</p>
+            </div>
+        </div>
+        
+        <!-- Вопрос 2 -->
+        <div class="faq-item">
+            <button class="faq-question">
+                <span>Как быстро вы реагируете на срочные заявки?</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>Для срочных заявок у нас предусмотрена экстренная поддержка с реакцией в течение 15 минут (круглосуточно). Стандартные запросы обрабатываются в течение 1 рабочего дня. Приоритетность определяется согласно SLA вашего договора.</p>
+            </div>
+        </div>
+        
+        <!-- Вопрос 3 -->
+        <div class="faq-item">
+            <button class="faq-question">
+                <span>Работаете ли вы с государственными организациями?</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>Да, мы имеем успешный опыт реализации IT-проектов для государственных учреждений, включая соответствие требованиям информационной безопасности и нормативным актам РК. Наша компания включена в реестр проверенных поставщиков.</p>
+            </div>
+        </div>
+        
+        <!-- Вопрос 4 -->
+        <div class="faq-item">
+            <button class="faq-question">
+                <span>Какое оборудование вы поставляете?</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>Мы работаем с ведущими мировыми производителями: Cisco, HP, Dell EMC, Huawei, Lenovo. Поставляем серверное и сетевое оборудование, системы хранения данных, решения для ЦОД, а также лицензионное ПО.</p>
+            </div>
+        </div>
+        
+        <!-- Вопрос 5 -->
+        <div class="faq-item">
+            <button class="faq-question">
+                <span>Как начать с вами сотрудничать?</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>Просто оставьте заявку через форму на сайте или позвоните нам. Наш менеджер проведет бесплатную консультацию, подготовит коммерческое предложение и согласует все детали. Для госзаказчиков предусмотрена особая процедура.</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Добавьте больше вопросов -->
+</div>
+
+    <!-- Футер (копируем из index.html) -->
+<footer>
+  <div class="container">
+    <div class="footer-container">
+      
+      <div class="footer-col">
+        <h3>О компании</h3>
+        <p>ТОО «РесмиТехноСервис» — ведущая компания в области системной интеграции и разработки IT-решений для государственных и крупных частных организаций.</p>
+      </div>
+      
+      <div class="footer-col">
+        <h3>Навигация</h3>
+        <ul class="footer-links">
+          <li><a href="/#home">Главная</a></li>
+          <li><a href="/#about">О компании</a></li>
+          <li><a href="/#services">Услуги</a></li>
+          <li><a href="/#projects">Проекты</a></li>
+          <li><a href="/#contact">Контакты</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h3>Услуги</h3>
+        <ul class="footer-links">
+          <li><a href="#">Поставка оборудования</a></li>
+          <li><a href="#">Сетевое оборудование</a></li>
+          <li><a href="#">Разработка ПО</a></li>
+          <li><a href="#">IT-безопасность</a></li>
+          <li><a href="#">Облачные решения</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h3>Контакты</h3>
+        <p><i class="fas fa-map-marker-alt"></i> г. Астана, ул. Брусиловского, 5</p>
+        <p><i class="fas fa-phone-alt"></i> +7 (707) 574-77-74</p>
+        <p><i class="fas fa-envelope"></i> resmitskz@gmail.com</p>
+      </div>
+      
+      <div class="footer-col">
+        <h3>Поддержка</h3>
+        <ul class="footer-links">
+          <li><a href="/help">Техническая поддержка</a></li>
+          <li><a href="/help#faq">FAQ</a></li>
+          <li><a href="/help#contact">Связаться с поддержкой</a></li>
+        </ul>
+      </div>
+      
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2023 ТОО "РесмиТехноСервис". Все права защищены.</p>
+      <p>Политика конфиденциальности | Политика обработки персональных данных</p>
+    </div>
+  </div>
+</footer>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
+    <script src="/js/help.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/IFPS.js"></script>
+</body>
+</html>

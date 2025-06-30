@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Админ-панель</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .admin-container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+    
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .data-selector {
+      display: flex;
+      margin-bottom: 20px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .data-selector button {
+      padding: 10px 15px;
+      background: #f0f0f0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .data-selector button.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    
+    .data-table th, .data-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .data-table th {
+      background: #f9f9f9;
+      font-weight: 600;
+    }
+    
+    .logout-btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <div class="admin-header">
+      <h1>Админ-панель</h1>
+      <button class="logout-btn" id="logoutBtn">Выйти</button>
+    </div>
+    
+    <div class="data-selector">
+      <button data-collection="contacts">Контакты</button>
+      <button data-collection="support-requests">Запросы поддержки</button>
+      <button data-collection="threat-logs">Логи угроз</button>
+      <button data-collection="users">Пользователи</button>
+    </div>
+    
+    <div id="dataContainer">
+      <p>Выберите категорию данных для просмотра</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const logoutBtn = document.getElementById('logoutBtn');
+      const dataSelector = document.querySelector('.data-selector');
+      const dataContainer = document.getElementById('dataContainer');
+      
+      // Выход из системы
+      logoutBtn.addEventListener('click', () => {
+        window.location.href = '/logout';
+      });
+      
+      // Обработка выбора данных
+      dataSelector.addEventListener('click', (e) => {
+        if (e.target.tagName === 'BUTTON') {
+          const collection = e.target.dataset.collection;
+          
+          // Удалить активный класс у всех кнопок
+          document.querySelectorAll('.data-selector button').forEach(btn => {
+            btn.classList.remove('active');
+          });
+          
+          // Добавить активный класс к текущей кнопке
+          e.target.classList.add('active');
+          
+          // Загрузить данные
+          loadData(collection);
+        }
+      });
+      
+      // Функция загрузки данных
+      async function loadData(collection) {
+        try {
+          dataContainer.innerHTML = '<p>Загрузка данных...</p>';
+          
+          const response = await fetch(`/admin/data/${collection}`);
+          const data = await response.json();
+          
+          if (data.length === 0) {
+            dataContainer.innerHTML = `<p>Нет данных в коллекции: ${collection}</p>`;
+            return;
+          }
+          
+          // Создаем таблицу
+          let tableHTML = `<table class="data-table">
+            <thead>
+              <tr>`;
+          
+          // Заголовки таблицы
+          Object.keys(data[0]._doc).forEach(key => {
+            if (key !== '__v' && key !== '_id') {
+              tableHTML += `<th>${key}</th>`;
+            }
+          });
+          
+          tableHTML += `</tr>
+            </thead>
+            <tbody>`;
+          
+          // Строки таблицы
+          data.forEach(item => {
+            tableHTML += '<tr>';
+            Object.entries(item._doc).forEach(([key, value]) => {
+              if (key !== '__v' && key !== '_id') {
+                // Форматирование дат
+                if (value instanceof Date || key.toLowerCase().includes('date')) {
+                  value = new Date(value).toLocaleString();
+                }
+                
+                // Преобразование объектов в JSON
+                if (typeof value === 'object' && value !== null) {
+                  value = JSON.stringify(value);
+                }
+                
+                tableHTML += `<td>${value}</td>`;
+              }
+            });
+            tableHTML += '</tr>';
+          });
+          
+          tableHTML += `</tbody></table>`;
+          dataContainer.innerHTML = tableHTML;
+          
+        } catch (error) {
+          console.error('Ошибка загрузки данных:', error);
+          dataContainer.innerHTML = `<p>Ошибка при загрузке данных: ${error.message}</p>`;
+        }
+      }
+    });
+  </script>
+</body>
+</html>

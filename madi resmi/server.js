@@ -10,7 +10,6 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet'); // Добавлено
 const rateLimit = require('express-rate-limit'); // Добавлено
-const { v4: uuidv4 } = require('uuid'); // Добавлено
 const axios = require('axios'); // Добавлено
 
 const app = express();
@@ -20,13 +19,13 @@ app.use(cors());
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
-      defaultSrc: ["'self'",,"www.google.com"],
+      defaultSrc: ["'self'", "www.google.com"],
       scriptSrc: ["'self'", "'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com","www.gstatic.com"],
       styleSrc: ["'self'", "'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com"],
       imgSrc: ["'self'","'unsafe-inline'", "cdnjs.cloudflare.com", "data:","www.google.com","images.unsplash.com"],
       fontSrc: ["'self'","'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com"],
       connectSrc: ["'self'","'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com"],
-      frameSrc: ["'none'",,"'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com"],
+      frameSrc: ["'none'", "'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com"],
       objectSrc: ["'none'","'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com"]
     }
   }
@@ -36,10 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Подключение к MongoDB
 const mongoUri = process.env.MONGODB_URI;
-mongoose.connect(mongoUri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
+mongoose.connect(mongoUri).then(() => {
   console.log('MongoDB подключен успешно');
 }).catch(err => {
   console.error('Ошибка подключения к MongoDB:', err);
@@ -214,28 +210,6 @@ app.use(securityMiddleware.xssSanitizer);
 const Contact = require('./models/Contact');
 const SupportRequest = require('./models/SupportRequest');
 const ThreatLog = require('./models/ThreatLog'); // Добавлено
-
-// API для обработки формы
-app.post('/api/contact', async (req, res) => {
-  try {
-
-    const { name, email, phone, message } = req.body;
-    
-    const newContact = new Contact({
-      name,
-      email,
-      phone,
-      message
-    });
-    
-    await newContact.save();
-    
-    res.status(201).json({ message: 'Сообщение успешно отправлено!' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Ошибка при отправке сообщения' });
-  }
-});
 
 // API для обработки запросов в поддержку
 app.post('/api/help-request', async (req, res) => {

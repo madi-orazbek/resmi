@@ -10,5 +10,6 @@ Create a `.env` file (not committed to version control) with the following varia
 - `ABUSEIPDB_KEY` – API key for AbuseIPDB.
 - `SESSION_SECRET` – secret used to sign Express sessions.
 - `PORT` – port on which the server runs (optional, defaults to `5000`).
+- `RECAPTCHA_SECRET` – secret key for verifying Google reCAPTCHA.
 
 An example configuration is provided in `.env.example`.

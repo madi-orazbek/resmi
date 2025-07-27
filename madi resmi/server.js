@@ -35,7 +35,8 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Подключение к MongoDB
-mongoose.connect('mongodb+srv://danel:hello@cluster0.avoaf.mongodb.net/RTS?retryWrites=true&w=majority&appName=Cluster0', {
+const mongoUri = process.env.MONGODB_URI;
+mongoose.connect(mongoUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
@@ -181,7 +182,7 @@ app.post('/api/contact', async (req, res) => {
         }
         
         // Проверка reCAPTCHA с Google
-        const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=6LeP2XErAAAAAMJEiY1p9Abb04mYwRxkeDOJVZnG&response=${recaptchaResponse}`;
+        const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET}&response=${recaptchaResponse}`;
         const recaptchaResult = await axios.get(verificationUrl);
         
         if (!recaptchaResult.data.success) {

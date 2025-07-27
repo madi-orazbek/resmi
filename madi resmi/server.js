@@ -45,6 +45,11 @@ mongoose.connect(mongoUri, {
   console.error('Ошибка подключения к MongoDB:', err);
 });
 
+const store = new MongoDBStore({
+  uri: mongoUri,
+  collection: 'sessions'
+});
+
 app.use(session({
   secret: process.env.SESSION_SECRET || 'your_secret_key',
   resave: false,

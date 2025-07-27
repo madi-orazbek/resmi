@@ -13,3 +13,13 @@ Create a `.env` file (not committed to version control) with the following varia
 - `RECAPTCHA_SECRET` – secret key for verifying Google reCAPTCHA.
 
 An example configuration is provided in `.env.example`.
+
+## Running the Server
+
+After installing dependencies with `npm install`, start the server with:
+
+```sh
+npm start
+```
+
+This runs `node "madi resmi/server.js"`.

@@ -14,6 +14,14 @@ Create a `.env` file (not committed to version control) with the following varia
 
 An example configuration is provided in `.env.example`.
 
+## Installation
+
+1. Install dependencies:
+   ```sh
+   npm install
+   ```
+2. Copy `.env.example` to `.env` and fill in your values.
+
 ## Running the Server
 
 After installing dependencies with `npm install`, start the server with:

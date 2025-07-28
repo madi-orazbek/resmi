@@ -10,7 +10,6 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet'); // Добавлено
 const rateLimit = require('express-rate-limit'); // Добавлено
-const { v4: uuidv4 } = require('uuid'); // Добавлено
 const axios = require('axios'); // Добавлено
 
 const app = express();
@@ -20,13 +19,13 @@ app.use(cors());
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
-      defaultSrc: ["'self'",,"www.google.com"],
+      defaultSrc: ["'self'", "www.google.com"],
       scriptSrc: ["'self'", "'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com","www.gstatic.com"],
       styleSrc: ["'self'", "'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com"],
       imgSrc: ["'self'","'unsafe-inline'", "cdnjs.cloudflare.com", "data:","www.google.com","images.unsplash.com"],
       fontSrc: ["'self'","'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com"],
       connectSrc: ["'self'","'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com"],
-      frameSrc: ["'none'",,"'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com"],
+      frameSrc: ["'none'", "'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com"],
       objectSrc: ["'none'","'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com"]
     }
   }
@@ -35,13 +34,16 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Подключение к MongoDB
-mongoose.connect('mongodb+srv://danel:hello@cluster0.avoaf.mongodb.net/RTS?retryWrites=true&w=majority&appName=Cluster0', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
+const mongoUri = process.env.MONGODB_URI;
+mongoose.connect(mongoUri).then(() => {
   console.log('MongoDB подключен успешно');
 }).catch(err => {
   console.error('Ошибка подключения к MongoDB:', err);
+});
+
+const store = new MongoDBStore({
+  uri: mongoUri,
+  collection: 'sessions'
 });
 
 app.use(session({
@@ -181,7 +183,7 @@ app.post('/api/contact', async (req, res) => {
         }
         
         // Проверка reCAPTCHA с Google
-        const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=6LeP2XErAAAAAMJEiY1p9Abb04mYwRxkeDOJVZnG&response=${recaptchaResponse}`;
+        const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET}&response=${recaptchaResponse}`;
         const recaptchaResult = await axios.get(verificationUrl);
         
         if (!recaptchaResult.data.success) {
@@ -208,28 +210,6 @@ app.use(securityMiddleware.xssSanitizer);
 const Contact = require('./models/Contact');
 const SupportRequest = require('./models/SupportRequest');
 const ThreatLog = require('./models/ThreatLog'); // Добавлено
-
-// API для обработки формы
-app.post('/api/contact', async (req, res) => {
-  try {
-
-    const { name, email, phone, message } = req.body;
-    
-    const newContact = new Contact({
-      name,
-      email,
-      phone,
-      message
-    });
-    
-    await newContact.save();
-    
-    res.status(201).json({ message: 'Сообщение успешно отправлено!' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Ошибка при отправке сообщения' });
-  }
-});
 
 // API для обработки запросов в поддержку
 app.post('/api/help-request', async (req, res) => {
@@ -294,15 +274,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-app.get('/admin/data/:collection', 
-  rateLimit({ windowMs: 15*60*1000, max: 100 }),  // Brute-force protection
-  authenticateJWT,                                 // Token verification
-  authorizeRole('admin'),                         // Role-based access
-  validateCollection(['contacts', 'support-requests']), // Input whitelisting
-  (req, res) => {
-    // Context-aware output encoding
-    const safeData = sanitizeForContext(req.data, 'json');
-    res.setHeader('X-Content-Type-Options', 'nosniff');
-    res.json(safeData);
-  }
-);
+

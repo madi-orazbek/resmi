@@ -294,15 +294,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-app.get('/admin/data/:collection', 
-  rateLimit({ windowMs: 15*60*1000, max: 100 }),  // Brute-force protection
-  authenticateJWT,                                 // Token verification
-  authorizeRole('admin'),                         // Role-based access
-  validateCollection(['contacts', 'support-requests']), // Input whitelisting
-  (req, res) => {
-    // Context-aware output encoding
-    const safeData = sanitizeForContext(req.data, 'json');
-    res.setHeader('X-Content-Type-Options', 'nosniff');
-    res.json(safeData);
-  }
-);

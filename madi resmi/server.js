@@ -20,13 +20,13 @@ app.use(cors());
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
-      defaultSrc: ["'self'",,"www.google.com"],
+      defaultSrc: ["'self'", "www.google.com"],
       scriptSrc: ["'self'", "'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com","www.gstatic.com"],
       styleSrc: ["'self'", "'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com"],
       imgSrc: ["'self'","'unsafe-inline'", "cdnjs.cloudflare.com", "data:","www.google.com","images.unsplash.com"],
       fontSrc: ["'self'","'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com"],
       connectSrc: ["'self'","'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com"],
-      frameSrc: ["'none'",,"'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com"],
+      frameSrc: ["'none'", "'unsafe-inline'", "cdnjs.cloudflare.com", "www.google.com"],
       objectSrc: ["'none'","'unsafe-inline'", "cdnjs.cloudflare.com","www.google.com"]
     }
   }

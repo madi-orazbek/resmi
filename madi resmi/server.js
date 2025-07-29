@@ -279,6 +279,10 @@ app.post('/api/help-request', async (req, res) => {
   }
 });
 
+// Заглушка для ML-прогноза
+app.post('/api/predict', (req, res) => {
+  res.json({ prediction: { prediction: '...', confidence: 0.0 } });
+});
 
 // Маршруты
 app.get('/help', (req, res) => {

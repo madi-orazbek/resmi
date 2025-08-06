@@ -35,16 +35,40 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Подключение к MongoDB
 const mongoUri = process.env.MONGODB_URI;
-mongoose.connect(mongoUri).then(() => {
-  console.log('MongoDB подключен успешно');
-}).catch(err => {
-  console.error('Ошибка подключения к MongoDB:', err);
+
+if (!mongoUri) {
+  console.error('MONGODB_URI is not defined');
+  process.exit(1);
+}
+
+const store = new MongoDBStore(
+  {
+    uri: mongoUri,
+    collection: 'sessions'
+  },
+  (error) => {
+    if (error) {
+      console.error('Session store connection error:', error);
+    }
+  }
+);
+
+store.on('error', (error) => {
+  console.error('Session store error:', error);
 });
 
-const store = new MongoDBStore({
-  uri: mongoUri,
-  collection: 'sessions'
-});
+mongoose.connect(mongoUri)
+  .then(() => {
+    console.log('MongoDB подключен успешно');
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error('Ошибка подключения к MongoDB:', err);
+    process.exit(1);
+  });
 
 app.use(session({
   secret: process.env.SESSION_SECRET || 'your_secret_key',
@@ -269,9 +293,5 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
-// Запуск сервера
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+// Запуск сервера перенесен выше после успешного подключения к MongoDB
 
